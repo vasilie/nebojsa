@@ -80,8 +80,138 @@
       left: 20px;
       border:none;
     }
+      * {
+    margin:0;
+    padding: 0;
+  }
+ 
+  .highscores {
+    float: left;
+    height: 500px;
+    width: 200px;
+    color: lime;
+    background: black;
+    border-left: 1px dashed white;
+  }
+  .new-highscore {
+    height: 237px;
+      text-align: center;
+      padding-top: 30px;
+      width: 300px;
+      float: left;
+      position: fixed;
+      color: white;
+      left: calc(50% - 150px);
+      top: calc(50% - 150px);
+      padding: 10px;
+      z-index: 3;
+      padding-top: 30px;
+      display: none;
+      color: white;
+      text-transform: uppercase;
+      font-family: 'Press', cursive;
+      font-size: 11px;
+      bottom: 46px;
+      position: fixed;
+      top: auto;
+      left: 50%;
+      margin-left: -220px;
+      text-align: left;
+  }
+  .new-highscore input {
+    display: inline;
+    background: transparent;
+    outline: none;
+    -webkit-appearance: none;
+    border: 1px solid white;
+    border: none;
+    border-bottom: 1px solid white;
+    color: white;
+    text-transform: uppercase;
+    font-family: 'Press', cursive;
+    font-size: 11px;
+    padding: 5px 10px;
+    font-size: 14px;
+    line-height: 12px;
+    border-bottom: 1px solid #b9d996;
+    padding-left:0;
+    margin-bottom: 13px;
+  }
+  .new-highscore  div {
+    margin-bottom: 17PX;
+    font-size: 12px;
+    display: inline;
+    float: left;
+    margin-right: 3px;
+
+  }
+  .mask {
+    width:100%;
+    height: 100%;
+    background:black;
+    opacity: 0.7;
+    position:absolute;
+    z-index: 2; 
+    display: none;
+  }
+  body::-webkit-input-placeholder, :-moz-placeholder {
+    color: black;
+  }
+  .send {
+    height: 34px;
+    color: white;
+    background: transparent;
+    border: none;
+    margin-top: 56px;
+    text-align: center;
+    line-height: 34px;
+    margin: 20px auto;
+    margin-top: 10px;
+    margin-bottom: 24px;
+    cursor: pointer;
+    padding: 10px 0px;
+    line-height: 15px;
+    color: white;
+    text-transform: uppercase;
+    font-family: 'Press', cursive;
+    font-size: 11px;
+  }
+  #current-score {
+    margin-bottom: 10px;
+    font-size: 19px;
+    text-align: center;
+  }
+  .info {
+    font-size: 14px;
+    margin-top: 28px;
+  }
+  .imena {
+    position: absolute;
+    left: 31px;
+    bottom: 29px;
+  }
+  .imena span {
+    color:white;
+  }
+  .imena li,
+  .imena li a {
+    color: white;
+    text-transform: uppercase;
+    font-family: 'Press', cursive;
+    font-size: 11px;
+    list-style-type: none;
+    padding-left: 11px;
+    margin-bottom: 12px;
+      -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently*/
+                           
+  }
   </style>
-  <title>Game title man</title>
+  <title>Небојша - Arrival</title>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -97,11 +227,21 @@
     </canvas>
     <canvas id='context2' width='1000' height="700">
     </canvas>
+    <div class="imena"></div>
   </div>
+  <div class="new-highscore">
+  <form action="">
+    <div>Your name:</div>
+    <input type="text" id="name" placeholder=''> 
+    <button class="send" onclick="printScore()">SEND</button>
 
+  </div>
+  </form>
+ 
   <script src='vendor/jquery.min.js'> </script>
-  <script src='app/js/Vector2.js'></script>
+  <!-- // <script src='js/Vector2.js'></script> -->
   <script src='js/main.js'></script>
-  <script src='app/js/touchControl.js'></script>
+  <script src="js/highscores.js"></script>
+  <!-- // <script src='js/touchControl.js'></script> -->
 </body>
 </html>

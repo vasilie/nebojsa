@@ -35,12 +35,14 @@ var score = 0;
 var gameIsOver = false;
 var gameStatus = 0;
 var godMode = false;
+var highscoreScreen = false;
 
 
 
 
 /*========================*\
   #Variables
+
 \*========================*/
 var loop,
     counter = 0,
@@ -202,6 +204,11 @@ var playerSprite = new sprite({
 	y:player.y
 });
 $("#context").css({"border-color":player.color});
+setTimeout(function(){
+	$(".imena li ").css({"color":player.color});
+	$(".new-highscore input ").css({"border-color":player.color});
+	// $(".new-highscore").css({"background":player.color});
+},10)
 // initImages(["road1.png"]);
 var enemy = function(){
 	this.x = width  + Math.random()*100;
@@ -345,7 +352,9 @@ if (gameStatus == 2){
 		enemies.push(new enemy());
 	}
 }
-
+if (gameIsOver){
+	
+}
 for (i in bullets){
 	if (bullets[i].decay <4 && collision(bullets[i],player) && !godMode){
 		bullets.splice(i,1);
@@ -373,8 +382,9 @@ for (i in bullets){
 	}
 }
 
-if (player.health <= 0){
+if (player.health <= 0 && !gameIsOver){
 	player.health = 0;
+
 	gameOver();
 }
 
@@ -382,9 +392,8 @@ if(keys[37] || keys[65] && !gameIsOver){player.x-=5;findMouseAngle();} // Left
 if(keys[39] || keys[68] && !gameIsOver){player.x+=5;findMouseAngle();} // Right
 if(keys[38] || keys[87] && !gameIsOver ){player.y-=5;findMouseAngle(); } // Up
 if(keys[40] || keys[83] && !gameIsOver ){player.y+=5;findMouseAngle(); } // Down
-if(keys[13] && gameIsOver){newGame();splashMusic.pause();splashMusic.currentTime = 0;}
-// if(keys[13] && gameIsOver){ chooseLevel(); } // Start new game
-
+if(keys[13] && gameIsOver && !highscoreScreen){newGame();splashMusic.pause();splashMusic.currentTime = 0;}
+// if(keys[13] && gameStatus == 2 && highscoreScreen){printNames(); } // Log status 	
 /* ---------------*\
  #Boudaries
 \* ---------------*/
@@ -565,6 +574,7 @@ function vCollision(first, second){
 }
 function gameOver(){
 	gameIsOver = true;
+	showNewHighscore();
 	splashMusic.play();
 }
 // function getImages(paths){
@@ -576,10 +586,12 @@ function gameOver(){
 // 	}
 // 	return images;
 // }
-function newGame(){
+function resetScores(){
 	bullets = [];
 	enemies = [];
 	player.health = 100;
+}
+function newGame(){
 	gameIsOver = false;
 	player.x = 50;
 	player.y = 100;
