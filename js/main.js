@@ -348,12 +348,21 @@ for (var i in enemies){
 
 // GameStatus 2
 if (gameStatus == 2){
-	if (score < 100){
+	if (score < 50){
 
 		if (counter % 50 == 0 ){
 			enemies.push(new enemy());
 		}
-	} else if ( 100 < score && score < 400) {
+	} else if ( 50 < score && score < 100) {
+
+		console.log("200 400");
+		if (counter % 40 == 0 ){
+			enemies.push(new enemy());
+			enemies.push(new enemy());
+			enemies.push(new enemy());
+		}
+	} else if ( 100 < score && score < 200) {
+
 		console.log("200 400");
 		if (counter % 40 == 0 ){
 			enemies.push(new enemy());
