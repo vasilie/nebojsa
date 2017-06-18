@@ -208,8 +208,9 @@ setTimeout(function(){
 	$(".imena li ").css({"color":player.color});
 	$(".new-highscore input ").css({"border-color":player.color});
 	// $(".new-highscore").css({"background":player.color});
-},10)
+},40)
 // initImages(["road1.png"]);
+
 var enemy = function(speed){
 	this.x = width  + Math.random()*100;
 	this.y= 25 + Math.floor(Math.random()*12)*50;
@@ -457,7 +458,7 @@ if(keys[37] || keys[65] && !gameIsOver){player.x-=5;findMouseAngle();} // Left
 if(keys[39] || keys[68] && !gameIsOver){player.x+=5;findMouseAngle();} // Right
 if(keys[38] || keys[87] && !gameIsOver ){player.y-=5;findMouseAngle(); } // Up
 if(keys[40] || keys[83] && !gameIsOver ){player.y+=5;findMouseAngle(); } // Down
-if(keys[32]  ){shoot();} // shoot
+if(keys[32]  ){shoot();} // shoot 
 if(keys[13] && gameIsOver && !highscoreScreen){newGame();splashMusic.pause();splashMusic.currentTime = 0;}
 // if(keys[13] && gameStatus == 2 && highscoreScreen){printNames(); } // Log status 	
 /* ---------------*\
