@@ -210,7 +210,7 @@ setTimeout(function(){
 	// $(".new-highscore").css({"background":player.color});
 },10)
 // initImages(["road1.png"]);
-var enemy = function(){
+var enemy = function(speed){
 	this.x = width  + Math.random()*100;
 	this.y= 25 + Math.floor(Math.random()*12)*50;
 	this.width= 24;
@@ -220,7 +220,7 @@ var enemy = function(){
 	this.image = images[this.colorNumber];
 	// this.color='rgb('+Math.floor(Math.random()*255)+','+Math.floor(Math.random()*255)+','+Math.floor(Math.random()*255)+')';
 	// this.color= 'red';
-	this.speed = 3;
+	this.speed = speed ? speed : 3;
 	this.getColorNumber = function(){
 		var number = Math.floor(Math.random()*10);
 		return number;
@@ -348,8 +348,52 @@ for (var i in enemies){
 
 // GameStatus 2
 if (gameStatus == 2){
-	if (counter % 50 == 0 ){
-		enemies.push(new enemy());
+	if (score < 100){
+
+		if (counter % 50 == 0 ){
+			enemies.push(new enemy());
+		}
+	} else if ( 100 < score && score < 400) {
+		console.log("200 400");
+		if (counter % 40 == 0 ){
+			enemies.push(new enemy());
+			enemies.push(new enemy());
+			enemies.push(new enemy());
+		}	
+	} else if ( 200 < score && score < 300) {
+		console.log("400 600");
+
+		if (counter % 50 == 0 ){
+			enemies.push(new enemy());
+			enemies.push(new enemy());
+			enemies.push(new enemy());
+			enemies.push(new enemy());
+		}	
+	} else if ( 300 < score && score <400) {
+
+		console.log("600 800");
+		if (counter % 40 == 0 ){
+			enemies.push(new enemy(5));
+			enemies.push(new enemy(5));
+			enemies.push(new enemy(7));
+			enemies.push(new enemy(5));
+			enemies.push(new enemy(5));
+		}	
+	} else if ( 600 < score ) {
+				console.log("<800");
+
+		if (counter % 40 == 0 ){
+			enemies.push(new enemy(10));
+			enemies.push(new enemy(10));
+			enemies.push(new enemy(10));
+			enemies.push(new enemy(10));
+			enemies.push(new enemy(10));
+			enemies.push(new enemy(10));
+			enemies.push(new enemy(10));
+			enemies.push(new enemy(5));
+			enemies.push(new enemy(5));
+			enemies.push(new enemy(5));
+		}	
 	}
 }
 if (gameIsOver){
