@@ -204,11 +204,11 @@ var playerSprite = new sprite({
 	y:player.y
 });
 $("#context").css({"border-color":player.color});
-setTimeout(function(){
-	$(".imena li ").css({"color":player.color});
-	$(".new-highscore input ").css({"border-color":player.color});
-	// $(".new-highscore").css({"background":player.color});
-},40)
+// setTimeout(function(){
+// 	$(".imena li ").css({"color":player.color});
+// 	$(".new-highscore input ").css({"border-color":player.color});
+// 	// $(".new-highscore").css({"background":player.color});
+// },240)
 // initImages(["road1.png"]);
 
 var enemy = function(speed){

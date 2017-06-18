@@ -53,6 +53,8 @@ function printNames(){
                 console.log(skor);
                 current_html += "<li><span>" + ime + "</span> : <span>" + skor+"</span></li>";
                 $(".imena").html(current_html);
+                $(".imena li ").css({"color":player.color});
+                $(".new-highscore input ").css({"border-color":player.color});
                 console.log(current_html);
 
             }
