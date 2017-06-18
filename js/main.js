@@ -388,6 +388,18 @@ if (gameStatus == 2){
 			enemies.push(new enemy(5));
 			enemies.push(new enemy(5));
 		}	
+	} else if ( 400 < score ) {
+				console.log("<800");
+
+		if (counter % 40 == 0 ){
+			enemies.push(new enemy(10));
+			enemies.push(new enemy(10));
+			enemies.push(new enemy(10));
+			enemies.push(new enemy(10));
+			enemies.push(new enemy(10));
+			enemies.push(new enemy(5));
+			enemies.push(new enemy(5));
+		}	
 	} else if ( 600 < score ) {
 				console.log("<800");
 
@@ -445,6 +457,7 @@ if(keys[37] || keys[65] && !gameIsOver){player.x-=5;findMouseAngle();} // Left
 if(keys[39] || keys[68] && !gameIsOver){player.x+=5;findMouseAngle();} // Right
 if(keys[38] || keys[87] && !gameIsOver ){player.y-=5;findMouseAngle(); } // Up
 if(keys[40] || keys[83] && !gameIsOver ){player.y+=5;findMouseAngle(); } // Down
+if(keys[32]  ){shoot();} // shoot
 if(keys[13] && gameIsOver && !highscoreScreen){newGame();splashMusic.pause();splashMusic.currentTime = 0;}
 // if(keys[13] && gameStatus == 2 && highscoreScreen){printNames(); } // Log status 	
 /* ---------------*\
