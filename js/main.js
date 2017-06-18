@@ -36,6 +36,7 @@ var gameIsOver = false;
 var gameStatus = 0;
 var godMode = false;
 var highscoreScreen = false;
+var bulletsMaxLength = 10;
 
 
 
@@ -357,22 +358,26 @@ if (gameStatus == 2){
 	} else if ( 50 < score && score < 100) {
 
 		console.log("200 400");
+		bulletsMaxLength = 12;
 		if (counter % 40 == 0 ){
+			
 			enemies.push(new enemy());
 			enemies.push(new enemy());
 			enemies.push(new enemy());
 		}
 	} else if ( 100 < score && score < 200) {
 
+		bulletsMaxLength = 12;
 		console.log("200 400");
 		if (counter % 40 == 0 ){
+
 			enemies.push(new enemy());
 			enemies.push(new enemy());
 			enemies.push(new enemy());
 		}	
 	} else if ( 200 < score && score < 300) {
 		console.log("400 600");
-
+		bulletsMaxLength = 15;
 		if (counter % 50 == 0 ){
 			enemies.push(new enemy());
 			enemies.push(new enemy());
@@ -380,7 +385,7 @@ if (gameStatus == 2){
 			enemies.push(new enemy());
 		}	
 	} else if ( 300 < score && score <400) {
-
+		bulletsMaxLength = 20;
 		console.log("600 800");
 		if (counter % 40 == 0 ){
 			enemies.push(new enemy(5));
@@ -391,25 +396,25 @@ if (gameStatus == 2){
 		}	
 	} else if ( 400 < score ) {
 				console.log("<800");
-
+		bulletsMaxLength = 25;
 		if (counter % 40 == 0 ){
-			enemies.push(new enemy(10));
-			enemies.push(new enemy(10));
-			enemies.push(new enemy(10));
+			enemies.push(new enemy(8));
+			enemies.push(new enemy(8));
+			enemies.push(new enemy(8));
 			enemies.push(new enemy(10));
 			enemies.push(new enemy(10));
 			enemies.push(new enemy(5));
 			enemies.push(new enemy(5));
 		}	
-	} else if ( 600 < score ) {
+	} else if ( 700 < score ) {
 				console.log("<800");
-
+		bulletsMaxLength = 30;
 		if (counter % 40 == 0 ){
 			enemies.push(new enemy(10));
-			enemies.push(new enemy(10));
-			enemies.push(new enemy(10));
-			enemies.push(new enemy(10));
-			enemies.push(new enemy(10));
+			enemies.push(new enemy(8));
+			enemies.push(new enemy(8));
+			enemies.push(new enemy(8));
+			enemies.push(new enemy(8));
 			enemies.push(new enemy(10));
 			enemies.push(new enemy(10));
 			enemies.push(new enemy(5));
@@ -484,13 +489,13 @@ function render(){
 	context.fillRect(0, 0, width, 25);
 	context.fillText("Score",10,50);
 	context.fillStyle="red";
-	context.fillRect(5,10,200, 5);
+	context.fillRect(10,10,200, 5);
 	context.fillStyle=player.color;
 
-	context.fillRect(5,10,player.health*2, 5);
+	context.fillRect(10,10,player.health*2, 5);
 
 	context.fillStyle='white';
-	context.fillText(player.health+'%',210,16);
+	context.fillText(player.health+'%',215,16);
 
 	// debug hand position
 	// context.fillStyle="red";
@@ -542,9 +547,20 @@ function render(){
 		context.restore();
 		context.fillStyle='black';
 		context.fillRect(0, height - 50, width, 50);
-
-
-		for (i in enemies){
+		context.fillStyle='white';
+		context.fillRect(255, 7, 2, 11);
+		context.globalAlpha=0.1;
+		for (i=0; i<bulletsMaxLength; i++){
+			context.fillRect(i*+7 + 272,  10 , 5, 5);
+		}
+		context.globalAlpha=1;
+		context.fillText(bulletsMaxLength - bullets.length,276 + bulletsMaxLength * 7 ,16);
+		context.fillStyle=player.color;
+		for (i=0; i<bulletsMaxLength-bullets.length; i++){
+			context.fillRect(i*+7 + 272,  10 , 5, 5);
+		}
+		context.fillStyle='white';
+		for (i in enemies){	
 			var enemy = enemies[i];
 			// context.fillStyle=enemy.color;
 			// context.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
@@ -618,7 +634,7 @@ function findEnemyMovingAngle(enemy,player){
 	return moving_angle;
 }
 function shoot(){
-	if (!gameIsOver && bullets.length < 10  && gameStatus == 2){
+	if (!gameIsOver && bullets.length < bulletsMaxLength  && gameStatus == 2){
 		bullets.push(new bullet(player.x,player.y));
 		sound_shoot[sound_shoot_counter].play();
 		sound_shoot_counter++;
