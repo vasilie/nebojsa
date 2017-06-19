@@ -5,7 +5,7 @@ function sendScores(){
     if ($("#name").val().trim().length > 1 && $("#name").val()!= '' ){
        
         $.ajax({
-            url: "../php/highscore_send.php",
+            url: "php/highscore_send.php",
             type: "POST",
             data: {
                 name : $("#name").val(),
@@ -33,7 +33,7 @@ function sendScores(){
 function printNames(){
     var current_html = ""; 
     $.ajax({
-        url: "../php/highscore_pull.php",
+        url: "php/highscore_pull.php",
         success: function(result){
             highscore = result;  
             var parsed_score = JSON.parse(highscore);
