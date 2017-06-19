@@ -31,6 +31,8 @@ canvas2.width = width;
 canvas2.height = height;
 canvas2.style.width = canvas2.width + "px";
 canvas2.style.height = canvas2.height + "px";
+
+
 var score = 0;
 var gameIsOver = false;
 var gameStatus = 0;
@@ -50,7 +52,7 @@ var loop,
     gameIsOver =false,
     enemies = [],
 		bullets = [],
-    gameSpeed = 1,
+    gameSpeed = 2,
     keys = [],
     bgpos = 0,
     deltaX = 1,
@@ -62,17 +64,40 @@ var loop,
   	requiredImages = 120,
 		mouseX,
 		mouseY,
+	scoreSent = false;
   	doneImages = 0;
+
+// Game Status
+// 0 - loading
+// 1 - startingScreen
+// 2 - gamePlaying
+// 3 - gameOver / Enter name
+// 4 - scoreSent / readyFor new game
+
 
   // Add keys to array
 
   window.addEventListener("keydown", function(e){
   	keys[e.keyCode] = true;
-		if (e.keyCode == 13 && gameStatus == 1){
+  	if (gameStatus == 1){ // Starting screen
+
+		if (e.keyCode == 13){ // Enter
 			gameStatus = 2;
 			splashMusic.pause();
 			splashMusic.currentTime = 0;
 		}
+  	}
+  	if (gameStatus == 3){ // gameOver // Enter name
+		if (e.keyCode == 13){ // Enter
+			sendScores();
+		}
+  	}
+  	if (gameStatus == 4) { // scoreSent / readyFor new game
+		if (e.keyCode == 13){ // Enter
+			newGame();
+		}
+  	}
+		
   }, false);
 
   // Remove keys from array
@@ -169,29 +194,24 @@ function sprite (options) {
     return that;
 }
 
+var vB,
+vBx,
+vBy;
 
-
-
-
-
-
-
-	var vB,
-	 vBx,
-	 vBy;
 var player = {
-  width:24,
-  height:24,
-  y:100,
-  x:50,
+	width:24,
+	height:24,
+	y:100,
+	x:50,
 	health:100,
 	image: playerImage,
-	color:'rgb('+Math.floor(Math.random()*255)+','+Math.floor(Math.random()*255)+','+Math.floor(Math.random()*255)+")",
-  hand:{
-    rotation:0,
+	color:'',
+ 	hex:'',
+	hand:{
+		rotation:0,
 		x :0,
 		y :0
-  }
+	}
 }
 var playerSprite = new sprite({
 	context: context,
@@ -204,6 +224,7 @@ var playerSprite = new sprite({
 	x:player.x,
 	y:player.y
 });
+getColor();
 $("#context").css({"border-color":player.color});
 // setTimeout(function(){
 // 	$(".imena li ").css({"color":player.color});
@@ -464,7 +485,6 @@ if(keys[39] || keys[68] && !gameIsOver){player.x+=5;findMouseAngle();} // Right
 if(keys[38] || keys[87] && !gameIsOver ){player.y-=5;findMouseAngle(); } // Up
 if(keys[40] || keys[83] && !gameIsOver ){player.y+=5;findMouseAngle(); } // Down
 if(keys[32]  ){shoot();} // shoot 
-if(keys[13] && gameIsOver && !highscoreScreen){newGame();splashMusic.pause();splashMusic.currentTime = 0;}
 // if(keys[13] && gameStatus == 2 && highscoreScreen){printNames(); } // Log status 	
 /* ---------------*\
  #Boudaries
@@ -479,7 +499,7 @@ if(player.y >= height - player.height - 50){player.y=height-player.height -50; }
 // 0 - loading
 // 1 - startingScreen
 // 2 - gamePlaying
-// 3 - gameOver
+// 3 - gameOver / Enter highscore
 }
 function render(){
 	//canvas
@@ -491,7 +511,7 @@ function render(){
 	context.fillStyle="red";
 	context.fillRect(10,10,200, 5);
 	context.fillStyle=player.color;
-
+	context.font='10px sans-serif';
 	context.fillRect(10,10,player.health*2, 5);
 
 	context.fillStyle='white';
@@ -519,13 +539,19 @@ function render(){
 		context.fillText("Небојша",width/2 - 120,height/2-70);
 		context.font='10px Press';
 		context.fillText("Press ENTER to play",width/2 - 95,height/2-20);
+		// context.fillText("YOUR COLOR ",25,320);
+		context.fillStyle = player.color;
+		// context.fillRect(25, 325, 100, 15);
+		context.font='18px sans-serif';
+
+		// context.fillText(player.hex,width - 118, height - 46);
 		context.font='10px sans-serif';
 		context.fillStyle = '#1b1b1b';
 		context.fillRect(width/2 - 200, height/2, 400, 6);
 		context.fillStyle = '#38b349';
 		context.fillRect(width/2 - 200, height/2, 400/(requiredImages)*doneImages, 6);
 		context.drawImage(images[11],width/2 - 192.75, height/2+40, 384, 164);
-	}	else if (gameStatus == 2) {
+	}	else if (gameStatus == 2 || gameStatus == 3) {
 		//player
 		context.fillStyle=player.color;
 		context.fillRect(player.x, player.y, player.width, player.height);
@@ -573,27 +599,31 @@ function render(){
 		}
 
 		context.fillStyle='purple';
-		if (gameIsOver){
-			context.fillStyle='white';
-			context.font='50px Press';
-			context.fillText("GAME OVER",width/2-220,height/2+25);
-			context.font='15px Press';
-			context.fillText("YOUR SCORE: "+score,width/2-220,height/2+50);
-			context.font='12px Press';
-			context.fillStyle = '#38b349';
-			context.fillText("ENTER",width/2-220,height/2+100);
-			context.fillStyle = 'white';
-			context.fillText("the new game",width/2-148,height/2+100);
-
-			context.font='10px sans-serif';
-		}
 		context.fillStyle = player.color;
 
 		for (i in explosions){
 			explosions[i].render();
 		}
-	}	else if (gameStatus == 3){
+	}  
 
+	if (gameStatus == 3 || gameStatus == 4){
+		context.fillStyle='white';
+		context.font='50px Press';
+		context.fillText("GAME OVER",width/2-220,height/2+25);
+		context.font='15px Press';
+		context.fillText("YOUR SCORE: "+score,width/2-220,height/2+50);
+		context.font='12px Press';
+		
+
+		
+	}  
+
+	if (gameStatus == 4){
+		context.fillStyle = '#38b349';
+		context.fillText("ENTER",width/2-220,height/2+100);
+		context.fillStyle = 'white';
+		context.fillText("the new game",width/2-148,height/2+100);
+		context.font='10px sans-serif';
 	}
 	context.fillRect(mouseX-10, mouseY, 21, 1);
 	context.fillRect(mouseX, mouseY-10, 1, 21);
@@ -608,7 +638,7 @@ function initImages(paths){
 		images.push(img);
 		images[i].onload = function(){
 			doneImages++;
-			console.log(doneImages);
+			// console.log(doneImages);
 		}
 	}
 	return images;
@@ -657,6 +687,7 @@ function vCollision(first, second){
 }
 function gameOver(){
 	gameIsOver = true;
+	gameStatus = 3;
 	showNewHighscore();
 	splashMusic.play();
 }
@@ -676,10 +707,33 @@ function resetScores(){
 }
 function newGame(){
 	gameIsOver = false;
+	gameStatus = 2;
 	player.x = 50;
 	player.y = 100;
 	score = 0;
+	bulletsMaxLength = 10;
 	$(".score").html(score);
+	splashMusic.pause();
+	splashMusic.currentTime = 0;
+}
+function getColor(){
+	var r = Math.floor(Math.random()*255);
+	var g = Math.floor(Math.random()*255);
+	var b = Math.floor(Math.random()*255);
+	player.color = 'rgb('+r+','+g+','+b+")";
+	player.hex = rgbToHex(r, g, b);
+	$("#context").css({"border-color":player.color});
+    $(".imena li ").css({"color":player.color});
+    $(".new-highscore input ").css({"border-color":player.color});
+
+}
+function componentToHex(c) {
+    var hex = c.toString(16).toUpperCase();
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 findMouseAngle();
 

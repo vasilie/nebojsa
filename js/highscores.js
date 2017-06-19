@@ -1,14 +1,11 @@
 var highscore;
-var message = ['You must enter a name',"No no, the name", "Ok puto, put tha name", "You should've known by now", "Easy does it","Still empty","I'm running out of messages",
-"Or am I?", "*cricket sound*", "Hi, you name is. What?", "Your name is. Who?","Your name is..", "*tumbleweed passing*", "I give up", "You are looping now bitch"];
-var message_no = 0;
-function printScore(){
+function sendScores(){
     turnOffPopup();
 
     if ($("#name").val().trim().length > 1 && $("#name").val()!= '' ){
        
         $.ajax({
-            url: "highscore.php",
+            url: "../php/highscore_send.php",
             type: "POST",
             data: {
                 name : $("#name").val(),
@@ -16,12 +13,14 @@ function printScore(){
                 // comment : comment
             }, 
             success: function(result){
+                console.log(result);
                 highscore = result;
                 printNames(); 
                 console.log("sending score: " + score);
                 resetScores();
+                console.log('everything is ok');
+                gameStatus = 4;
                 turnOffPopup();
-                gameStatus = 1;
 
             },
             error: function(result){
@@ -29,18 +28,12 @@ function printScore(){
                 console.log("Result: "+ result);
             }
         });
-    } else {
-        $("#current-score").html(message[message_no]);
-        message_no++;
-        if (message_no >= message.length){
-            message_no = 0;
-        }
     }
 }
 function printNames(){
     var current_html = ""; 
     $.ajax({
-        url: "highscore.php",
+        url: "../php/highscore_pull.php",
         success: function(result){
             highscore = result;  
             var parsed_score = JSON.parse(highscore);
@@ -49,16 +42,15 @@ function printNames(){
 
                 var ime = parsed_score[i][1];
                 var skor = parsed_score[i][2];
-                console.log(ime);
-                console.log(skor);
+                // console.log(ime);
+                // console.log(skor);
                 current_html += "<li><span>" + ime + "</span> : <span>" + skor+"</span></li>";
                 $(".imena").html(current_html);
                 $(".imena li ").css({"color":player.color});
                 $(".new-highscore input ").css({"border-color":player.color});
-                console.log(current_html);
+                // console.log(current_html);
 
             }
-            console.log(parsed_score);
         },
         error:function(result){
             console.log("Can't print names");
