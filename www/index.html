@@ -10,7 +10,7 @@
 <!-- End Google Tag Manager -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 <!-- <link href='https://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'> -->
   <style>
     @font-face {
@@ -84,7 +84,7 @@
     margin:0;
     padding: 0;
   }
- 
+
   .highscores {
     float: left;
     height: 500px;
@@ -151,7 +151,7 @@
     background:black;
     opacity: 0.7;
     position:absolute;
-    z-index: 2; 
+    z-index: 2;
     display: none;
   }
   body::-webkit-input-placeholder, :-moz-placeholder {
@@ -202,13 +202,13 @@
     list-style-type: none;
     padding-left: 11px;
     margin-bottom: 12px;
-      -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently*/
-                           
+	-webkit-touch-callout: none; /* iOS Safari */
+	  -webkit-user-select: none; /* Safari */
+	   -khtml-user-select: none; /* Konqueror HTML */
+	     -moz-user-select: none; /* Firefox */
+	      -ms-user-select: none; /* Internet Explorer/Edge */
+	          user-select: none; /* Non-prefixed version, currently*/
+
   }
   </style>
   <title>Небојша - Arrival</title>
@@ -231,15 +231,17 @@
   </div>
   <div class="new-highscore">
     <div>Your name:</div>
-    <input type="text" id="name" placeholder=''> 
+    <input type="text" id="name" placeholder=''>
     <div class="send" onclick="sendScores()">SEND</div>
 
   </form>
- 
-  <script src='vendor/jquery.min.js'> </script>
+
+  <script src='/vendor/jquery.min.js'> </script>
   <!-- // <script src='js/Vector2.js'></script> -->
-  <script src='js/main.js'></script>
-  <script src="js/highscores.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src='/js/main.js'></script>
+  <script src='/js/client.js'></script>
+  <script src="/js/highscores.js"></script>
   <!-- // <script src='js/touchControl.js'></script> -->
 </body>
 </html>

@@ -134,7 +134,7 @@ splashMusic.addEventListener("ended", function(){
 function checkAudio(){
 	if (splashMusic.readyState >= 3){
 		doneImages++;
-		splashMusic.play();
+		// splashMusic.play();
 	} else {
 		setTimeout(function(){
 			checkAudio();
@@ -549,12 +549,14 @@ function render(){
 		context.fillStyle = '#1b1b1b';
 		context.fillRect(width/2 - 200, height/2, 400, 6);
 
-		// context.fillStyle = '#ff00ff';
-		// if (!multiplayer){
-		// 	context.fillText("singleplayer");
-		// } else {
-		// 	context.fillText("multiplayer");
-		// }
+
+		if (!multiplayer){
+			context.fillStyle = '#ff00ff';
+			context.fillText("singleplayer", 30, 140);
+		} else {
+			context.fillStyle = '#00ffff';
+			context.fillText("multiplayer", 30, 140);
+		}
 		context.fillStyle = '#38b349';
 		context.fillRect(width/2 - 200, height/2, 400/(requiredImages)*doneImages, 6);
 		context.drawImage(images[11],width/2 - 192.75, height/2+40, 384, 164);
