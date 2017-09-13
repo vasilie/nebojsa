@@ -1,4 +1,4 @@
-$(function(){
+// $(function(){
   var socket = io.connect();
   // var $messageForm = $("#send-message");
   // var $nickForm = $("#setNick");
@@ -27,14 +27,24 @@ $(function(){
   // ocket.emit('send message', $messageBox.val());
   // messageBox.val('');
   // });
+  socket.on("new player",function(data){
+	  console.log(data);
+	  socket.id = data;
+  });
   socket.on("usernames",function(data){
 	var html = '';
 	pera = data;
-	console.log(data[0].nickname);
+	// console.log(data[0].nickname);
+	otherPLayers.push({id:data.id, x:data.x, y:data.y, color:data.color});
 	for (i=0;i<data.length;i++){
 	  console.log(i);
-	  html+="<p style='background:"+data[i].color+"'>"+data[i].nickname+"</p>";
 	}
+	console.log("---------------------------");
+	console.log("---------------------------");
+	console.log("usernames");
+	console.log(data.length);
+	console.log("---------------------------");
+	console.log("---------------------------");
 	// $users.html(html);
 	if (data.length > 1){
 		multiplayer = true;
@@ -53,8 +63,16 @@ $(function(){
 	startTyping();
 	$(".typeAct").html(html);
   });
+
+  setInterval(function(){
+	//   console.log(socket.id);
+	  socket.emit("playerPosition",{id:socket.id, x:player.x, y:player.y, color:player.color},function(data){
+
+	  });
+  },33);
+
   // $messageBox.on("keyup",function(e){
   // ocket.emit('typing', {color:myColor,nickname:myNickname,msg:$messageBox.val()});
   // });
 
-});
+// });

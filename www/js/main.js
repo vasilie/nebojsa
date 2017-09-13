@@ -41,6 +41,7 @@ var highscoreScreen = false;
 var bulletsMaxLength = 10;
 var players = [];
 var multiplayer = false;
+var otherPLayers = [];
 
 
 
@@ -293,7 +294,14 @@ function game(){
   render();
 }
 var maxSpeed = 200;
+// if (multiplayer){
+	socket.on('beat', function(data){
+		console.log("HEARTBEAT ON CLIENT");
+		otherPLayers = data;
+	});
+// }
 function update(){
+
 /* ---------------*\
    #Controls
 \* ---------------*/
@@ -636,6 +644,14 @@ function render(){
 	}
 	context.fillRect(mouseX-10, mouseY, 21, 1);
 	context.fillRect(mouseX, mouseY-10, 1, 21);
+
+	for (i in otherPLayers){
+		console.log(otherPLayers[i]);
+		context.fillStyle = otherPLayers[i].color;
+		if (otherPLayers[i].id != socket.id){
+			context.fillRect(otherPLayers[i].x, otherPLayers[i].y, 24, 24);
+		}
+	}
 }
 function initImages(paths){
 	requiredImages = paths.length;
